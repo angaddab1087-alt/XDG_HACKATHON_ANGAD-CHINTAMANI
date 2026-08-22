@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="mrbd-web-app-capable" content="yes">
+  <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <title>Emergency Assistant HUD</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 600px;
+      height: 600px;
+      max-width: 600px;
+      max-height: 600px;
+      min-width: 600px;
+      min-height: 600px;
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    #hud-container {
+      width: 600px;
+      height: 600px;
+      background-color: #000000;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 28px;
+      outline: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    #hud-container:focus-visible,
+    #hud-container.focused {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Top Metadata Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 32px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding-bottom: 8px;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+
+    .mode-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+
+    .mode-indicator.medical { background: #FF453A; box-shadow: 0 0 8px #FF453A; }
+    .mode-indicator.safety  { background: #0A84FF; box-shadow: 0 0 8px #0A84FF; }
+    .mode-indicator.calm    { background: #30D158; box-shadow: 0 0 8px #30D158; }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .exit-btn {
+      font-family: inherit;
+      color: rgba(255, 255, 255, 0.45);
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.15s ease;
+    }
+
+    .exit-btn:hover, .exit-btn.active {
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Main Viewport */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      height: 440px;
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 12px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+
+    /* List Options Navigation */
+    .menu-options {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 22px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid transparent;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+
+    .menu-item-label {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .menu-item-sub {
+      font-size: 13px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .menu-item.selected {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #FFFFFF;
+      color: #FFFFFF;
+      transform: scale(1.02);
+    }
+
+    .menu-item.medical.selected {
+      border-color: #FF453A;
+      box-shadow: 0 0 16px rgba(255, 69, 58, 0.4);
+    }
+    .menu-item.medical.selected .menu-item-sub { color: #FF9F0A; }
+
+    .menu-item.safety.selected {
+      border-color: #0A84FF;
+      box-shadow: 0 0 16px rgba(10, 132, 255, 0.4);
+    }
+    .menu-item.safety.selected .menu-item-sub { color: #64D2FF; }
+
+    .menu-item.calm.selected {
+      border-color: #30D158;
+      box-shadow: 0 0 16px rgba(48, 209, 88, 0.4);
+    }
+    .menu-item.calm.selected .menu-item-sub { color: #30D158; }
+
+    /* Stepped Detail Views */
+    .step-view {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .step-header {
+      font-size: 13px;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .step-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin: 6px 0 4px;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+
+    .step-desc {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.35;
+      max-width: 500px;
+    }
+
+    .step-illustration-container {
+      width: 240px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 4px 0;
+      border-radius: 8px;
+    }
+
+    .step-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      background: transparent;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+    }
+
+    .step-illustration-container.with-pacer .step-image {
+      filter: drop-shadow(0 0 12px rgba(255, 69, 58, 0.4));
+    }
+
+    /* Pacing Metronome (CPR) - 110 BPM = 0.545s cycle */
+    .cpr-pacer-ring {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid #FF453A;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: cprPulse 0.545s infinite ease-out;
+      box-shadow: 0 0 20px rgba(255, 69, 58, 0.6);
+    }
+
+    .cpr-pacer-ring.overlay-badge {
+      width: 42px;
+      height: 42px;
+      bottom: 8px;
+      right: 8px;
+      top: auto;
+      left: auto;
+      border-width: 3px;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .cpr-pacer-core {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FF453A;
+      box-shadow: 0 0 14px #FF453A;
+    }
+
+    .cpr-pacer-core.overlay-badge-core {
+      width: 16px;
+      height: 16px;
+    }
+
+    @keyframes cprPulse {
+      0% {
+        transform: scale(0.85);
+        opacity: 1;
+        border-width: 5px;
+      }
+      50% {
+        transform: scale(1.15);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(0.85);
+        opacity: 1;
+        border-width: 5px;
+      }
+    }
+
+    .bpm-tag {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 14px;
+      color: #FF453A;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* Calm Mode Breathing Animation */
+    .calm-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 20px;
+    }
+
+    .calm-shape-wrap {
+      width: 200px;
+      height: 200px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .calm-circle-outer {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: 2px dashed rgba(48, 209, 88, 0.4);
+      position: absolute;
+    }
+
+    .calm-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(48, 209, 88, 0.8) 0%, rgba(48, 209, 88, 0.2) 70%, transparent 100%);
+      border: 3px solid #30D158;
+      box-shadow: 0 0 30px rgba(48, 209, 88, 0.5);
+      animation: breatheInOut 8s infinite ease-in-out;
+    }
+
+    @keyframes breatheInOut {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+        border-color: rgba(48, 209, 88, 0.6);
+      }
+      50% {
+        transform: scale(2.0);
+        opacity: 1;
+        border-color: #30D158;
+        box-shadow: 0 0 45px rgba(48, 209, 88, 0.8);
+      }
+    }
+
+    .calm-text {
+      font-size: 32px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Confirmation / Triggered state */
+    .alert-box {
+      border: 2px solid #0A84FF;
+      background: rgba(10, 132, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      max-width: 480px;
+      box-shadow: 0 0 25px rgba(10, 132, 255, 0.3);
+    }
+
+    .alert-box.emergency {
+      border-color: #FF453A;
+      background: rgba(255, 69, 58, 0.1);
+      box-shadow: 0 0 25px rgba(255, 69, 58, 0.3);
+    }
+
+    .alert-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .alert-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .alert-sub {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+
+    .stepper-progress-wrap {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .stepper-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .dot.active {
+      background: #FFFFFF;
+      box-shadow: 0 0 6px #FFFFFF;
+    }
+
+    .step-timer-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .step-timer-fill {
+      height: 100%;
+      width: 0%;
+      background: #FFFFFF;
+      animation: autoAdvance 5s linear forwards;
+    }
+
+    .step-timer-fill.medical {
+      background: #FF453A;
+      box-shadow: 0 0 6px #FF453A;
+    }
+
+    .step-timer-fill.safety {
+      background: #0A84FF;
+      box-shadow: 0 0 6px #0A84FF;
+    }
+
+    @keyframes autoAdvance {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* Bottom Status & Control Bar with Neural Band Gesture Legend */
+    .bottom-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 6px;
+    }
+
+    .bottom-row-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 22px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .controls-hint {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .gesture-legend {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+
+    .key-badge {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #FFFFFF;
+      font-size: 11px;
+    }
+
+    .a11y-badge {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(48, 209, 88, 0.15);
+      color: #30D158;
+      border: 1px solid rgba(48, 209, 88, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div id="hud-container" tabindex="0">
+    <!-- Top Meta Row -->
+    <div class="top-bar">
+      <div class="top-left">
+        <div id="mode-indicator" class="mode-indicator"></div>
+        <span id="screen-title">HOME</span>
+      </div>
+      <div class="top-right">
+        <span id="a11y-tag" class="a11y-badge">100% VISUAL</span>
+        <span id="sub-status">READY</span>
+        <button id="exit-btn" class="exit-btn" title="Hold / Escape: False Alarm">
+          <span>X</span>
+          <span style="font-size: 9px; opacity: 0.7;">HOLD</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Viewport Area -->
+    <div id="viewport" class="screen-content">
+      <!-- Dynamic Screen Content Rendered Here -->
+    </div>
+
+    <!-- Bottom Controls & Hints -->
+    <div class="bottom-bar">
+      <div class="bottom-row-main">
+        <div class="controls-hint">
+          <span class="key-badge">↑</span>
+          <span class="key-badge">↓</span>
+          <span class="key-badge">←</span>
+          <span class="key-badge">→</span>
+          <span>SWIPE</span>
+          <span class="key-badge" style="margin-left: 6px;">ENTER</span>
+          <span>PINCH</span>
+          <span class="key-badge" style="margin-left: 6px;">ESC</span>
+          <span>HOLD</span>
+        </div>
+        <div id="flow-progress" style="font-family: monospace;">1/1</div>
+      </div>
+      <div class="gesture-legend">
+        Neural Band: Swipe to navigate · Pinch to select · Hold to exit
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State Store
+    const state = {
+      currentScreen: 'HOME', // HOME, MEDICAL_MENU, SAFETY_MENU, CPR, CHOKING, DROWNING, STROKE, FIRE_MENU, POLICE, CALM, CLOSING
+      selectedIndex: 0,
+      currentStep: 0,
+      calmInterval: null,
+      calmPhase: 'in', // 'in' or 'out'
+      stepTimer: null
+    };
+
+    // Flow Content Definitions
+    const FLOWS = {
+      HOME: {
+        title: 'HOME',
+        mode: 'neutral',
+        type: 'menu',
+        eyebrow: 'Emergency Assistant',
+        items: [
+          { id: 'MEDICAL_MENU', label: 'Medical', sub: 'CPR • Choking • Trauma', class: 'medical' },
+          { id: 'SAFETY_MENU', label: 'Safety', sub: 'Fire • Police • Danger', class: 'safety' },
+          { id: 'CALM', label: 'Calm', sub: 'Breathing • De-escalate', class: 'calm' }
+        ]
+      },
+      MEDICAL_MENU: {
+        title: 'MEDICAL',
+        mode: 'medical',
+        type: 'menu',
+        eyebrow: 'Select Medical Flow',
+        items: [
+          { id: 'CPR', label: 'CPR Guidance', sub: 'Paced compressions (110 BPM)', class: 'medical' },
+          { id: 'CHOKING', label: 'Choking Relief', sub: 'Back blows & thrusts', class: 'medical' },
+          { id: 'DROWNING', label: 'Drowning Response', sub: 'Rescue breaths & rescue', class: 'medical' },
+          { id: 'STROKE', label: 'Stroke (FAST)', sub: 'Fast symptom check', class: 'medical' }
+        ]
+      },
+      SAFETY_MENU: {
+        title: 'SAFETY',
+        mode: 'safety',
+        type: 'menu',
+        eyebrow: 'Select Safety Flow',
+        items: [
+          { id: 'FIRE_MENU', label: 'Fire Emergency', sub: 'Extinguisher & Evac', class: 'safety' },
+          { id: 'POLICE', label: 'Police Alert', sub: 'Emergency contacts & silent alert', class: 'safety' }
+        ]
+      },
+      FIRE_MENU: {
+        title: 'FIRE',
+        mode: 'safety',
+        type: 'menu',
+        eyebrow: 'Fire Protocol',
+        items: [
+          { id: 'FIRE_EXTINGUISHER', label: 'Extinguisher (P.A.S.S.)', sub: 'Pull • Aim • Squeeze • Sweep', class: 'safety' },
+          { id: 'FIRE_CALL', label: 'Call Fire Dept', sub: 'Evacuate & alert 911', class: 'safety' }
+        ]
+      },
+      CPR: {
+        title: 'CPR',
+        mode: 'medical',
+        type: 'stepper',
+        hasPacer: true,
+        steps: [
+          {
+            title: '1. Check Scene & Person',
+            desc: 'Ensure area is safe. Tap shoulders firmly: "Are you OK?"',
+            img: 'images/cpr-1.png'
+          },
+          {
+            title: '2. Check Breathing',
+            desc: 'Look for chest rise. If unresponsive or not breathing normally, act now.',
+            img: 'images/cpr-2.png'
+          },
+          {
+            title: '3. Call 911 / AED',
+            desc: 'Direct someone to call 911 and get an AED immediately.',
+            img: 'images/cpr-3.png'
+          },
+          {
+            title: '4. Hand Placement',
+            desc: 'Interlock hands in center of chest. Keep arms straight, shoulders over hands.',
+            img: 'images/cpr-4.png'
+          },
+          {
+            title: '5. Push Hard & Fast',
+            desc: 'Push down 2 inches deep. Follow the 110 BPM pulsing rhythm below.',
+            img: 'images/cpr-5.png',
+            showPacer: true
+          },
+          {
+            title: '6. Breaths & Repeat',
+            desc: 'Give 2 breaths every 30 compressions. Repeat until help arrives.',
+            img: 'images/cpr-6.png'
+          }
+        ]
+      },
+      CHOKING: {
+        title: 'CHOKING',
+        mode: 'medical',
+        type: 'stepper',
+        steps: [
+          {
+            title: '1. Recognize & Ask',
+            desc: 'Cannot speak or cough? Ask: "Are you choking?" Verify silent nod.',
+            img: 'images/choking-1.png'
+          },
+          {
+            title: '2. 5 Back Blows',
+            desc: 'Lean victim forward. Deliver 5 firm blows between shoulder blades with palm heel.',
+            img: 'images/choking-2.png'
+          },
+          {
+            title: '3. 5 Abdominal Thrusts',
+            desc: 'Fist above navel, other hand over fist. Quick upward and inward thrusts.',
+            img: 'images/choking-3.png'
+          },
+          {
+            title: '4. Alternate & Repeat',
+            desc: 'Repeat 5 blows / 5 thrusts. If person becomes unresponsive, start CPR.',
+            img: 'images/choking-4.png'
+          }
+        ]
+      },
+      DROWNING: {
+        title: 'DROWNING',
+        mode: 'medical',
+        type: 'stepper',
+        steps: [
+          {
+            title: '1. Safe Retrieval',
+            desc: 'Get person out of water safely without endangering yourself. Call for help.',
+            img: 'images/drowning-1.png'
+          },
+          {
+            title: '2. Check Responsiveness',
+            desc: 'Lay on back on firm ground. Check for breathing and pulse for 10 seconds.',
+            img: 'images/drowning-2.png'
+          },
+          {
+            title: '3. 5 Initial Breaths',
+            desc: 'Tilt head, lift chin. Give 5 initial rescue breaths to oxygenate lungs.',
+            img: 'images/drowning-3.png'
+          },
+          {
+            title: '4. 30 Compressions',
+            desc: 'Begin chest compressions in center of chest at 100-120 BPM.',
+            img: 'images/drowning-4.png'
+          },
+          {
+            title: '5. Continue CPR Flow',
+            desc: 'Continue 30 compressions followed by 2 rescue breaths until help arrives.',
+            img: 'images/drowning-5.png'
+          }
+        ]
+      },
+      STROKE: {
+        title: 'STROKE (FAST)',
+        mode: 'medical',
+        type: 'stepper',
+        steps: [
+          {
+            title: 'F — Face Drooping',
+            desc: 'Ask them to smile. Does one side of the face droop or feel numb?',
+            img: 'images/stroke-1.png'
+          },
+          {
+            title: 'A — Arm Weakness',
+            desc: 'Ask them to raise both arms. Does one arm drift downward?',
+            img: 'images/stroke-2.png'
+          },
+          {
+            title: 'S — Speech Difficulty',
+            desc: 'Ask them to repeat a simple sentence. Is speech slurred or strange?',
+            img: 'images/stroke-3.png'
+          },
+          {
+            title: 'T — Time to Call 911',
+            desc: 'If any symptom is present, call 911 immediately. Note the time it started.',
+            img: 'images/stroke-4.png'
+          }
+        ]
+      },
+      FIRE_EXTINGUISHER: {
+        title: 'EXTINGUISHER',
+        mode: 'safety',
+        type: 'stepper',
+        steps: [
+          {
+            title: 'P — Pull Pin',
+            desc: 'Pull the pin at top of extinguisher to break the tamper seal.',
+            img: 'images/ext-1.png'
+          },
+          {
+            title: 'A — Aim Low',
+            desc: 'Aim the nozzle at the base of the fire, not the flames.',
+            img: 'images/ext-2.png'
+          },
+          {
+            title: 'S — Squeeze Lever',
+            desc: 'Squeeze the operating handle to discharge the extinguishing agent.',
+            img: 'images/ext-3.png'
+          },
+          {
+            title: 'S — Sweep Side to Side',
+            desc: 'Sweep nozzle across base of fire until completely extinguished. Evacuate if uncontrolled.',
+            img: 'images/ext-4.png'
+          }
+        ]
+      },
+      FIRE_CALL: {
+        title: 'FIRE ALERT',
+        mode: 'safety',
+        type: 'alert',
+        icon: '🔥',
+        titleText: 'Evacuate & Call 911',
+        desc: 'Leave building immediately. Do not use elevators. Call emergency dispatch from outside.',
+        img: 'images/fire-alert.png'
+      },
+      POLICE: {
+        title: 'POLICE ALERT',
+        mode: 'safety',
+        type: 'alert',
+        icon: '🚨',
+        titleText: 'Emergency Contacts Alerted',
+        desc: 'Location beacon activated. Stay in a secure location. Dispatch notified.',
+        img: 'images/police-alert.png'
+      },
+      CALM: {
+        title: 'CALM',
+        mode: 'calm',
+        type: 'calm'
+      },
+      CLOSING: {
+        title: 'STANDBY',
+        mode: 'neutral',
+        type: 'closing'
+      }
+    };
+
+    const container = document.getElementById('hud-container');
+    const viewport = document.getElementById('viewport');
+    const screenTitle = document.getElementById('screen-title');
+    const modeIndicator = document.getElementById('mode-indicator');
+    const subStatus = document.getElementById('sub-status');
+    const flowProgress = document.getElementById('flow-progress');
+    const exitBtn = document.getElementById('exit-btn');
+
+    function updateTopBar(flow) {
+      screenTitle.textContent = flow.title || 'HUD';
+      modeIndicator.className = 'mode-indicator ' + (flow.mode || '');
+      
+      if (flow.type === 'stepper') {
+        subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} • 5s`;
+        flowProgress.textContent = `${state.currentStep + 1}/${flow.steps.length}`;
+      } else if (flow.type === 'menu') {
+        subStatus.textContent = 'SELECT';
+        flowProgress.textContent = `${state.selectedIndex + 1}/${flow.items.length}`;
+      } else if (flow.type === 'calm') {
+        subStatus.textContent = 'PACED';
+        flowProgress.textContent = '4s / 4s';
+      } else {
+        subStatus.textContent = 'ACTIVE';
+        flowProgress.textContent = '1/1';
+      }
+    }
+
+    function clearActiveTimers() {
+      if (state.stepTimer) {
+        clearTimeout(state.stepTimer);
+        state.stepTimer = null;
+      }
+      if (state.calmInterval) {
+        clearInterval(state.calmInterval);
+        state.calmInterval = null;
+      }
+    }
+
+    function renderScreen() {
+      clearActiveTimers();
+
+      const flow = FLOWS[state.currentScreen];
+      if (!flow) return;
+
+      updateTopBar(flow);
+      viewport.innerHTML = '';
+
+      if (flow.type === 'menu') {
+        const wrap = document.createElement('div');
+        wrap.className = 'menu-options';
+
+        if (flow.eyebrow) {
+          const eye = document.createElement('div');
+          eye.className = 'eyebrow';
+          eye.textContent = flow.eyebrow;
+          viewport.appendChild(eye);
+        }
+
+        flow.items.forEach((item, index) => {
+          const el = document.createElement('div');
+          el.className = `menu-item ${item.class || ''} ${index === state.selectedIndex ? 'selected' : ''}`;
+          el.innerHTML = `
+            <div>
+              <div class="menu-item-label">${item.label}</div>
+              <div class="menu-item-sub">${item.sub}</div>
+            </div>
+            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">→</div>
+          `;
+          el.addEventListener('click', () => {
+            state.selectedIndex = index;
+            selectCurrent();
+          });
+          wrap.appendChild(el);
+        });
+
+        viewport.appendChild(wrap);
+      } else if (flow.type === 'stepper') {
+        const isLastStep = state.currentStep >= flow.steps.length - 1;
+
+        // Auto advance after 5 seconds - loops back to 1st step after the last step
+        state.stepTimer = setTimeout(() => {
+          if (isLastStep) {
+            state.currentStep = 0; // Return to 1st step
+          } else {
+            state.currentStep++;
+          }
+          renderScreen();
+        }, 5000);
+
+        const step = flow.steps[state.currentStep];
+        const stepWrap = document.createElement('div');
+        stepWrap.className = 'step-view';
+
+        // Dots & 5s Timer Bar
+        let dotsHtml = '<div class="stepper-dots">';
+        for (let i = 0; i < flow.steps.length; i++) {
+          dotsHtml += `<div class="dot ${i === state.currentStep ? 'active' : ''}"></div>`;
+        }
+        dotsHtml += '</div>';
+
+        const progressHtml = `
+          <div class="stepper-progress-wrap">
+            ${dotsHtml}
+            <div class="step-timer-bar">
+              <div class="step-timer-fill ${flow.mode || ''}"></div>
+            </div>
+          </div>
+        `;
+
+        // Image or Pacing
+        let centerVisual = '';
+        const imgTag = step.img ? `<img src="${step.img}" alt="${step.title}" class="step-image" onerror="this.style.display='none'">` : '';
+
+        if (step.showPacer || (flow.hasPacer && state.currentStep === 4)) {
+          centerVisual = `
+            <div class="step-illustration-container with-pacer">
+              ${imgTag}
+              <div class="cpr-pacer-ring overlay-badge">
+                <div class="cpr-pacer-core overlay-badge-core"></div>
+              </div>
+            </div>
+            <div class="bpm-tag">⚡ 110 BPM PACER ACTIVE</div>
+          `;
+        } else if (step.img) {
+          centerVisual = `
+            <div class="step-illustration-container">
+              ${imgTag}
+            </div>
+            ${flow.hasPacer ? '<div class="bpm-tag" style="opacity: 0.7;">110 BPM TARGET</div>' : ''}
+          `;
+        } else if (flow.hasPacer) {
+          centerVisual = `
+            <div class="step-illustration-container">
+              <div class="cpr-pacer-ring"></div>
+              <div class="cpr-pacer-core"></div>
+            </div>
+            <div class="bpm-tag">110 BPM RHYTHM</div>
+          `;
+        } else {
+          centerVisual = `<div class="step-illustration-container"></div>`;
+        }
+
+        stepWrap.innerHTML = `
+          <div>
+            <div class="step-header">STEP ${state.currentStep + 1} OF ${flow.steps.length}</div>
+            <div class="step-title">${step.title}</div>
+            <div class="step-desc">${step.desc}</div>
+          </div>
+          ${centerVisual}
+          ${progressHtml}
+        `;
+
+        viewport.appendChild(stepWrap);
+      } else if (flow.type === 'calm') {
+        const calmWrap = document.createElement('div');
+        calmWrap.className = 'calm-container';
+
+        calmWrap.innerHTML = `
+          <div class="calm-shape-wrap">
+            <div class="calm-circle-outer"></div>
+            <div class="calm-circle"></div>
+          </div>
+          <div id="calm-text" class="calm-text">Breathe in...</div>
+        `;
+
+        viewport.appendChild(calmWrap);
+
+        state.calmPhase = 'in';
+        state.calmInterval = setInterval(() => {
+          state.calmPhase = state.calmPhase === 'in' ? 'out' : 'in';
+          const txt = document.getElementById('calm-text');
+          if (txt) {
+            txt.textContent = state.calmPhase === 'in' ? 'Breathe in...' : 'Breathe out...';
+          }
+        }, 4000);
+      } else if (flow.type === 'alert') {
+        const alertBox = document.createElement('div');
+        alertBox.className = `alert-box ${flow.mode === 'medical' ? 'emergency' : ''}`;
+        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || '⚠️'}</div>`;
+        alertBox.innerHTML = `
+          ${imgHtml}
+          <div class="alert-title">${flow.titleText || 'Emergency Alert'}</div>
+          <div class="alert-sub">${flow.desc || ''}</div>
+        `;
+        viewport.appendChild(alertBox);
+      } else if (flow.type === 'closing') {
+        viewport.innerHTML = `
+          <div style="text-align: center; color: rgba(255, 255, 255, 0.7);">
+            <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">False Alarm Cleared</div>
+            <div style="font-size: 16px; font-family: monospace; color: rgba(255, 255, 255, 0.4);">Resetting HUD...</div>
+          </div>
+        `;
+      }
+    }
+
+    function navigateMenu(direction) {
+      const flow = FLOWS[state.currentScreen];
+      if (flow.type === 'menu') {
+        const count = flow.items.length;
+        if (direction === 'next') {
+          state.selectedIndex = (state.selectedIndex + 1) % count;
+        } else if (direction === 'prev') {
+          state.selectedIndex = (state.selectedIndex - 1 + count) % count;
+        }
+        renderScreen();
+      } else if (flow.type === 'stepper') {
+        if (direction === 'next' && state.currentStep < flow.steps.length - 1) {
+          state.currentStep++;
+          renderScreen();
+        } else if (direction === 'prev' && state.currentStep > 0) {
+          state.currentStep--;
+          renderScreen();
+        }
+      }
+    }
+
+    function selectCurrent() {
+      const flow = FLOWS[state.currentScreen];
+      if (flow.type === 'menu') {
+        const selected = flow.items[state.selectedIndex];
+        if (selected && selected.id) {
+          state.currentScreen = selected.id;
+          state.selectedIndex = 0;
+          state.currentStep = 0;
+          renderScreen();
+        }
+      }
+    }
+
+    function triggerFalseAlarm() {
+      state.currentScreen = 'CLOSING';
+      renderScreen();
+      setTimeout(() => {
+        state.currentScreen = 'HOME';
+        state.selectedIndex = 0;
+        state.currentStep = 0;
+        renderScreen();
+      }, 1200);
+    }
+
+    function goBackOrHome() {
+      if (state.currentScreen === 'HOME') {
+        triggerFalseAlarm();
+      } else {
+        state.currentScreen = 'HOME';
+        state.selectedIndex = 0;
+        state.currentStep = 0;
+        renderScreen();
+      }
+    }
+
+    // Keyboard Controller
+    window.addEventListener('keydown', (e) => {
+      // Prevent browser default scroll behavior
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          navigateMenu('next');
+          break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          navigateMenu('prev');
+          break;
+        case 'Enter':
+        case ' ':
+          selectCurrent();
+          break;
+        case 'Escape':
+          goBackOrHome();
+          break;
+      }
+    });
+
+    exitBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      triggerFalseAlarm();
+    });
+
+    // Auto Focus on load
+    window.addEventListener('load', () => {
+      container.focus();
+      container.classList.add('focused');
+      renderScreen();
+    });
+
+    document.body.addEventListener('click', () => {
+      container.focus();
+    });
+  </script>
+</body>
+</html>
