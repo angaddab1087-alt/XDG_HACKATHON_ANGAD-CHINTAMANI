@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="mrbd-web-app-capable" content="yes">
   <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
-  <title>Emergency Assistant HUD</title>
-  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>AID PULSE</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     * {
       box-sizing: border-box;
@@ -539,10 +539,10 @@
     <div class="bottom-bar">
       <div class="bottom-row-main">
         <div class="controls-hint">
-          <span class="key-badge">↑</span>
-          <span class="key-badge">↓</span>
-          <span class="key-badge">←</span>
-          <span class="key-badge">→</span>
+          <span class="key-badge">â†‘</span>
+          <span class="key-badge">â†“</span>
+          <span class="key-badge">â†</span>
+          <span class="key-badge">â†’</span>
           <span>SWIPE</span>
           <span class="key-badge" style="margin-left: 6px;">ENTER</span>
           <span>PINCH</span>
@@ -552,7 +552,7 @@
         <div id="flow-progress" style="font-family: monospace;">1/1</div>
       </div>
       <div class="gesture-legend">
-        Neural Band: Swipe to navigate · Pinch to select · Hold to exit
+        Neural Band: Swipe to navigate Â· Pinch to select Â· Hold to exit
       </div>
     </div>
   </div>
@@ -576,9 +576,9 @@
         type: 'menu',
         eyebrow: 'Emergency Assistant',
         items: [
-          { id: 'MEDICAL_MENU', label: 'Medical', sub: 'CPR • Choking • Trauma', class: 'medical' },
-          { id: 'SAFETY_MENU', label: 'Safety', sub: 'Fire • Police • Danger', class: 'safety' },
-          { id: 'CALM', label: 'Calm', sub: 'Breathing • De-escalate', class: 'calm' }
+          { id: 'MEDICAL_MENU', label: 'Medical', sub: 'CPR â€¢ Choking â€¢ Trauma', class: 'medical' },
+          { id: 'SAFETY_MENU', label: 'Safety', sub: 'Fire â€¢ Police â€¢ Danger', class: 'safety' },
+          { id: 'CALM', label: 'Calm', sub: 'Breathing â€¢ De-escalate', class: 'calm' }
         ]
       },
       MEDICAL_MENU: {
@@ -609,7 +609,7 @@
         type: 'menu',
         eyebrow: 'Fire Protocol',
         items: [
-          { id: 'FIRE_EXTINGUISHER', label: 'Extinguisher (P.A.S.S.)', sub: 'Pull • Aim • Squeeze • Sweep', class: 'safety' },
+          { id: 'FIRE_EXTINGUISHER', label: 'Extinguisher (P.A.S.S.)', sub: 'Pull â€¢ Aim â€¢ Squeeze â€¢ Sweep', class: 'safety' },
           { id: 'FIRE_CALL', label: 'Call Fire Dept', sub: 'Evacuate & alert 911', class: 'safety' }
         ]
       },
@@ -717,22 +717,22 @@
         type: 'stepper',
         steps: [
           {
-            title: 'F — Face Drooping',
+            title: 'F â€” Face Drooping',
             desc: 'Ask them to smile. Does one side of the face droop or feel numb?',
             img: 'images/stroke-1.png'
           },
           {
-            title: 'A — Arm Weakness',
+            title: 'A â€” Arm Weakness',
             desc: 'Ask them to raise both arms. Does one arm drift downward?',
             img: 'images/stroke-2.png'
           },
           {
-            title: 'S — Speech Difficulty',
+            title: 'S â€” Speech Difficulty',
             desc: 'Ask them to repeat a simple sentence. Is speech slurred or strange?',
             img: 'images/stroke-3.png'
           },
           {
-            title: 'T — Time to Call 911',
+            title: 'T â€” Time to Call 911',
             desc: 'If any symptom is present, call 911 immediately. Note the time it started.',
             img: 'images/stroke-4.png'
           }
@@ -744,22 +744,22 @@
         type: 'stepper',
         steps: [
           {
-            title: 'P — Pull Pin',
+            title: 'P â€” Pull Pin',
             desc: 'Pull the pin at top of extinguisher to break the tamper seal.',
             img: 'images/ext-1.png'
           },
           {
-            title: 'A — Aim Low',
+            title: 'A â€” Aim Low',
             desc: 'Aim the nozzle at the base of the fire, not the flames.',
             img: 'images/ext-2.png'
           },
           {
-            title: 'S — Squeeze Lever',
+            title: 'S â€” Squeeze Lever',
             desc: 'Squeeze the operating handle to discharge the extinguishing agent.',
             img: 'images/ext-3.png'
           },
           {
-            title: 'S — Sweep Side to Side',
+            title: 'S â€” Sweep Side to Side',
             desc: 'Sweep nozzle across base of fire until completely extinguished. Evacuate if uncontrolled.',
             img: 'images/ext-4.png'
           }
@@ -769,7 +769,7 @@
         title: 'FIRE ALERT',
         mode: 'safety',
         type: 'alert',
-        icon: '🔥',
+        icon: 'ðŸ”¥',
         titleText: 'Evacuate & Call 911',
         desc: 'Leave building immediately. Do not use elevators. Call emergency dispatch from outside.',
         img: 'images/fire-alert.png'
@@ -778,7 +778,7 @@
         title: 'POLICE ALERT',
         mode: 'safety',
         type: 'alert',
-        icon: '🚨',
+        icon: 'ðŸš¨',
         titleText: 'Emergency Contacts Alerted',
         desc: 'Location beacon activated. Stay in a secure location. Dispatch notified.',
         img: 'images/police-alert.png'
@@ -808,7 +808,7 @@
       modeIndicator.className = 'mode-indicator ' + (flow.mode || '');
       
       if (flow.type === 'stepper') {
-        subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} • 5s`;
+        subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} â€¢ 5s`;
         flowProgress.textContent = `${state.currentStep + 1}/${flow.steps.length}`;
       } else if (flow.type === 'menu') {
         subStatus.textContent = 'SELECT';
@@ -861,7 +861,7 @@
               <div class="menu-item-label">${item.label}</div>
               <div class="menu-item-sub">${item.sub}</div>
             </div>
-            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">→</div>
+            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">â†’</div>
           `;
           el.addEventListener('click', () => {
             state.selectedIndex = index;
@@ -916,7 +916,7 @@
                 <div class="cpr-pacer-core overlay-badge-core"></div>
               </div>
             </div>
-            <div class="bpm-tag">⚡ 110 BPM PACER ACTIVE</div>
+            <div class="bpm-tag">âš¡ 110 BPM PACER ACTIVE</div>
           `;
         } else if (step.img) {
           centerVisual = `
@@ -973,7 +973,7 @@
       } else if (flow.type === 'alert') {
         const alertBox = document.createElement('div');
         alertBox.className = `alert-box ${flow.mode === 'medical' ? 'emergency' : ''}`;
-        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || '⚠️'}</div>`;
+        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || 'âš ï¸'}</div>`;
         alertBox.innerHTML = `
           ${imgHtml}
           <div class="alert-title">${flow.titleText || 'Emergency Alert'}</div>
@@ -1090,3 +1090,4 @@
   </script>
 </body>
 </html>
+
