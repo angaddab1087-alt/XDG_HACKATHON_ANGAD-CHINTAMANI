@@ -1,0 +1,73 @@
+# Aid Pulse — Emergency Assistant HUD
+### Meta Ray-Ban Display Web App | Accessibility Hackathon Submission
+
+---
+
+## What This Is
+
+Aid Pulse is a hands-free, visual-first emergency guidance system built for the Meta Ray-Ban Display glasses. It's designed around a simple idea: in an emergency, you may not be able to hear instructions, type on a screen, or use fine motor control — and existing emergency tools assume you can do all three.
+
+Aid Pulse gives step-by-step guidance for medical, safety, and anxiety emergencies entirely through a glanceable heads-up display, with no audio required and no precise touch input required.
+
+**Primary accessibility focus:** Deaf and hard-of-hearing users, and users with limited hand mobility or motor disabilities.
+**Secondary benefit:** anyone in an acute panic/emergency state, since stress temporarily reduces fine motor control and processing capacity the same way a disability might.
+
+---
+
+## Current Features (Built and Working)
+
+### Home Screen
+Three functional options — **Medical, Safety, Calm** — plus one clearly separated exit action, **False Alarm (X)**. The exit option is visually muted and corner-positioned so it never competes with or gets confused for the three real emergency paths.
+
+### Medical
+- **CPR** — fully built with real illustrated step guidance (check the scene, check response, call for help, hand position, compressions, repeat cycle), sourced and adapted from Red Cross CPR guidance.
+- The compression step swaps into a **live pulsing ring, paced at ~110 beats per minute** — a purely visual metronome that replaces the audio pacing a hearing bystander would normally rely on. This is the single clearest proof point of the app's Deaf/HoH accessibility goal: it works identically with the sound completely off.
+- **Choking, Drowning, and Stroke** — each built as a guided step flow (Mayo Clinic and WebMD sourced guidance for Choking/Drowning; FAST method for Stroke), branching into the CPR sequence at the point where a person becomes unresponsive rather than duplicating compression steps.
+
+### Safety
+- **Fire** — choice of "Call Fire Dept" (status screen) or a glanceable extinguisher guide using the PASS method (Pull, Aim, Squeeze, Sweep), kept to a short action sequence rather than full sentences so it's readable in about two seconds.
+- **Police** — a single "Alert Emergency Contacts" action with a confirmation state.
+
+### Calm / Anxiety
+A single breathing screen — an expanding and contracting ring paired with simple cycling text ("Breathe in... Breathe out..."). Deliberately not a game and not multi-step, because someone in acute panic has reduced capacity to process complexity.
+
+### Interaction Model
+Full four-direction navigation — Up/Down mirrors Left/Right at every level — plus a select action and a universal "return home" action, standing in during desktop testing for the Ray-Ban Display's real input method: the wrist-worn **Neural Band**, which reads pinch, swipe, and rotation gestures via surface electromyography (sEMG). The on-screen control hint labels this mapping explicitly, so the connection to real glasses hardware is visible rather than assumed.
+
+### Technical Execution
+- Built as a self-contained app with a fixed display canvas and zero scrolling anywhere, matching the constraints of the Ray-Ban Display's own screen.
+- CPR step visuals are real illustrations with backgrounds removed, built directly into the app so it runs as one portable piece with no external dependency.
+- No camera, microphone, or audio access used anywhere — every accessibility claim in this app is true with sound off and with no sensor access, not just in theory but in the actual running build.
+
+---
+
+## Future Scope (Not Built — Roadmap Only)
+
+Everything in this section was intentionally left out of the current build for one direct reason: we had four hours total for this hackathon, and we chose to spend that time making a smaller set of flows genuinely work end-to-end rather than spreading it across features we couldn't finish or verify. Nothing below is missing because it wasn't thought through — it's missing because building it properly, with real sensor integration and real reliability, is a multi-week effort on its own, not something that belongs in a rushed four-hour build. We were also deliberate about not overclaiming sensor capabilities we don't have. Here's what a real next version would need, and why:
+
+### Automatic emergency detection
+Currently every flow is manually triggered. A future version could auto-launch the right flow, but this needs sensors beyond what's currently confirmed on Ray-Ban Display hardware:
+- **Fall detection** — needs an accelerometer/gyroscope (motion sensing), not currently something we integrate.
+- **Panic/anxiety detection** — needs physiological signals like heart rate variability (via a wrist PPG sensor) or skin conductance (EDA), not the Neural Band's sEMG, which reads muscle/gesture signals, not physiological stress signals. Even with the right sensors, reliable detection typically requires combining two or more signals together (e.g., HRV + EDA + sudden onset) to avoid false positives from exercise, heat, or caffeine — so this is a genuinely hard problem, not a small add-on.
+- **Fire/thermal detection** — needs a literal thermal camera, which isn't part of this hardware at all.
+
+Any auto-triggered emergency response — especially auto-dispatch to emergency services — would need a human-confirmation safeguard before ever going live, given the real cost of false positives.
+
+### Richer Neural Band gesture use
+Since the Neural Band is genuinely built for gesture sensing (not physiological sensing), the more realistic near-term extension is a **dedicated silent gesture for duress signaling** — a discreet pinch/swipe pattern that pings a trusted contact with no visible on-screen confirmation, so it stays unnoticeable to someone standing nearby. This reuses the exact same "Alert Emergency Contacts" architecture already built into the Safety → Police flow today, just with a different, quieter trigger.
+
+### Beyond triggered emergencies
+The same visual-first, gesture-driven HUD pattern could extend to everyday (not just emergency) accessibility use:
+- **Ambient live captioning** for Deaf/HoH users in daily conversation, not only crisis moments.
+- **Sound-to-visual alerts** — turning a smoke alarm, car horn, or someone calling your name into a directional visual cue, since a Deaf/HoH person's biggest daily risk is often missing an alert in the first place, not just needing help after the fact.
+
+### Open items for a real (non-hackathon) version
+- Matching illustrated step guidance for Choking, Drowning, and Stroke, in the same visual style as CPR.
+- How an emergency-contacts list would actually be configured and managed.
+- Whether the Police panic trigger needs a visible confirm step to reduce false-positive risk once it's backed by a real API call instead of a simulated one.
+
+---
+
+## Why This Design, Not a Bigger One
+
+Given a four-hour build window, we scoped deliberately rather than broadly: one fully-realized flow (CPR) built to a real standard, three more medical flows built and working, a complete Safety and Calm path, and an honest, hardware-accurate future scope — instead of five detection systems that don't actually work when someone taps on them. We'd rather show you what's real.
