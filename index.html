@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -552,7 +552,7 @@
         <div id="flow-progress" style="font-family: monospace;">1/1</div>
       </div>
       <div class="gesture-legend">
-        Neural Band: Swipe to navigate Â· Pinch to select Â· Hold to exit
+        Neural Band: Swipe to navigate Â* Pinch to select Â* Hold to exit
       </div>
     </div>
   </div>
@@ -574,11 +574,11 @@
         title: 'HOME',
         mode: 'neutral',
         type: 'menu',
-        eyebrow: 'Emergency Assistant',
+        eyebrow: 'AID PULSE',
         items: [
-          { id: 'MEDICAL_MENU', label: 'Medical', sub: 'CPR â€¢ Choking â€¢ Trauma', class: 'medical' },
-          { id: 'SAFETY_MENU', label: 'Safety', sub: 'Fire â€¢ Police â€¢ Danger', class: 'safety' },
-          { id: 'CALM', label: 'Calm', sub: 'Breathing â€¢ De-escalate', class: 'calm' }
+          { id: 'MEDICAL_MENU', label: 'Medical', sub: 'CPR * Choking * Trauma', class: 'medical' },
+          { id: 'SAFETY_MENU', label: 'Safety', sub: 'Fire * Police * Danger', class: 'safety' },
+          { id: 'CALM', label: 'Calm', sub: 'Breathing * De-escalate', class: 'calm' }
         ]
       },
       MEDICAL_MENU: {
@@ -609,7 +609,7 @@
         type: 'menu',
         eyebrow: 'Fire Protocol',
         items: [
-          { id: 'FIRE_EXTINGUISHER', label: 'Extinguisher (P.A.S.S.)', sub: 'Pull â€¢ Aim â€¢ Squeeze â€¢ Sweep', class: 'safety' },
+          { id: 'FIRE_EXTINGUISHER', label: 'Extinguisher (P.A.S.S.)', sub: 'Pull * Aim * Squeeze * Sweep', class: 'safety' },
           { id: 'FIRE_CALL', label: 'Call Fire Dept', sub: 'Evacuate & alert 911', class: 'safety' }
         ]
       },
@@ -808,7 +808,7 @@
       modeIndicator.className = 'mode-indicator ' + (flow.mode || '');
       
       if (flow.type === 'stepper') {
-        subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} â€¢ 5s`;
+        subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} * 5s`;
         flowProgress.textContent = `${state.currentStep + 1}/${flow.steps.length}`;
       } else if (flow.type === 'menu') {
         subStatus.textContent = 'SELECT';
