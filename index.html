@@ -24,7 +24,7 @@
       max-height: 600px;
       min-width: 600px;
       min-height: 600px;
-      background-color: #000000;
+      background: radial-gradient(circle at 50% 30%, #111822 0%, #05070a 60%, #000000 100%);
       color: #FFFFFF;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
@@ -32,22 +32,35 @@
       place-items: center;
     }
 
+    /* Frosted glass utility & base styling */
+    .frosted {
+      background: rgba(22, 28, 36, 0.65) !important;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+    }
+
     #hud-container {
       width: 600px;
       height: 600px;
-      background-color: #000000;
+      background: rgba(10, 14, 20, 0.72);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 24px 28px;
+      padding: 18px 24px;
       outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 12px 40px rgba(0, 0, 0, 0.8);
+      border-radius: 16px;
     }
 
     #hud-container:focus-visible,
     #hud-container.focused {
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.32);
     }
 
     /* Top Metadata Bar */
@@ -55,13 +68,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 38px;
+      height: 40px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      color: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
       padding-bottom: 6px;
     }
 
@@ -95,7 +108,10 @@
       font-family: inherit;
       color: #FFFFFF;
       background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       padding: 3px 10px;
       border-radius: 6px;
       font-size: 18px;
@@ -112,7 +128,8 @@
     .exit-btn:hover, .exit-btn.active {
       color: #FFFFFF;
       border-color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.28);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
     }
 
     /* Main Viewport */
@@ -125,15 +142,16 @@
       position: relative;
       width: 100%;
       height: 440px;
+      padding: 4px 0;
     }
 
     .eyebrow {
       font-size: 18px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 600;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
     }
 
@@ -142,24 +160,27 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .menu-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 22px;
-      border-radius: 10px;
+      padding: 14px 20px;
+      border-radius: 12px;
       background: rgba(255, 255, 255, 0.08);
-      border: 2px solid transparent;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
       color: rgba(255, 255, 255, 0.95);
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
     }
 
     .menu-item-label {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       letter-spacing: 0.5px;
     }
@@ -167,32 +188,36 @@
     .menu-item-sub {
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
       margin-top: 3px;
     }
 
     .menu-item.selected {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.18);
       border-color: #FFFFFF;
       color: #FFFFFF;
       transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
     }
 
     .menu-item.medical.selected {
       border-color: #FF453A;
-      box-shadow: 0 0 16px rgba(255, 69, 58, 0.4);
+      box-shadow: 0 0 20px rgba(255, 69, 58, 0.45);
+      background: rgba(255, 69, 58, 0.15);
     }
     .menu-item.medical.selected .menu-item-sub { color: #FF9F0A; }
 
     .menu-item.safety.selected {
       border-color: #0A84FF;
-      box-shadow: 0 0 16px rgba(10, 132, 255, 0.4);
+      box-shadow: 0 0 20px rgba(10, 132, 255, 0.45);
+      background: rgba(10, 132, 255, 0.15);
     }
     .menu-item.safety.selected .menu-item-sub { color: #64D2FF; }
 
     .menu-item.calm.selected {
       border-color: #30D158;
-      box-shadow: 0 0 16px rgba(48, 209, 88, 0.4);
+      box-shadow: 0 0 20px rgba(48, 209, 88, 0.45);
+      background: rgba(48, 209, 88, 0.15);
     }
     .menu-item.calm.selected .menu-item-sub { color: #30D158; }
 
@@ -205,41 +230,45 @@
       align-items: center;
       justify-content: space-between;
       text-align: center;
-      padding: 10px 0;
+      padding: 8px 0;
     }
 
     .step-header {
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 600;
     }
 
     .step-title {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
-      margin: 6px 0 4px;
+      margin: 4px 0 2px;
       color: #FFFFFF;
       letter-spacing: -0.5px;
     }
 
     .step-desc {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.88);
       line-height: 1.35;
       max-width: 500px;
     }
 
     .step-illustration-container {
       width: 240px;
-      height: 150px;
+      height: 145px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       margin: 4px 0;
-      border-radius: 8px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .step-image {
@@ -380,19 +409,21 @@
 
     /* Confirmation / Triggered state */
     .alert-box {
-      border: 2px solid #0A84FF;
-      background: rgba(10, 132, 255, 0.1);
-      border-radius: 12px;
+      border: 1.5px solid rgba(10, 132, 255, 0.6);
+      background: rgba(10, 132, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 14px;
       padding: 24px;
       text-align: center;
       max-width: 480px;
-      box-shadow: 0 0 25px rgba(10, 132, 255, 0.3);
+      box-shadow: 0 8px 30px rgba(10, 132, 255, 0.35);
     }
 
     .alert-box.emergency {
-      border-color: #FF453A;
-      background: rgba(255, 69, 58, 0.1);
-      box-shadow: 0 0 25px rgba(255, 69, 58, 0.3);
+      border-color: rgba(255, 69, 58, 0.6);
+      background: rgba(255, 69, 58, 0.12);
+      box-shadow: 0 8px 30px rgba(255, 69, 58, 0.35);
     }
 
     .alert-icon {
@@ -474,8 +505,8 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
-      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      padding-top: 6px;
     }
 
     .bottom-row-main {
@@ -485,7 +516,7 @@
       height: 28px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.95);
     }
 
     .controls-hint {
@@ -505,8 +536,11 @@
     }
 
     .key-badge {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 2px 7px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1px 6px;
       border-radius: 4px;
       color: #FFFFFF;
       font-size: 18px;
@@ -516,20 +550,22 @@
     .a11y-badge {
       font-size: 18px;
       padding: 2px 8px;
-      border-radius: 4px;
-      background: rgba(48, 209, 88, 0.25);
+      border-radius: 6px;
+      background: rgba(48, 209, 88, 0.22);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       color: #30D158;
-      border: 1px solid rgba(48, 209, 88, 0.5);
+      border: 1px solid rgba(48, 209, 88, 0.45);
       font-weight: 700;
     }
   </style>
 </head>
 <body>
-  <div id="hud-container" tabindex="0">
+  <div id="hud-container" class="frosted" tabindex="0">
     <!-- Top Meta Row -->
     <div class="top-bar">
       <div class="top-left">
-        <button id="back-btn" class="back-btn" title="Back (Backspace / Left)" style="display: none;">
+        <button id="back-btn" class="back-btn frosted" title="Back (Backspace / Left)" style="display: none;">
           <span>&#8592;</span>
           <span>BACK</span>
         </button>
@@ -539,7 +575,7 @@
       <div class="top-right">
         <span id="a11y-tag" class="a11y-badge">100% VISUAL</span>
         <span id="sub-status">READY</span>
-        <button id="exit-btn" class="exit-btn" title="Hold / Escape: False Alarm">
+        <button id="exit-btn" class="exit-btn frosted" title="Hold / Escape: False Alarm">
           <span>X</span>
           <span>HOLD</span>
         </button>
@@ -882,7 +918,7 @@
 
         flow.items.forEach((item, index) => {
           const el = document.createElement('div');
-          el.className = `menu-item ${item.class || ''} ${index === state.selectedIndex ? 'selected' : ''}`;
+          el.className = `menu-item frosted ${item.class || ''} ${index === state.selectedIndex ? 'selected' : ''}`;
           el.innerHTML = `
             <div>
               <div class="menu-item-label">${item.label}</div>
@@ -937,7 +973,7 @@
 
         if (step.showPacer || (flow.hasPacer && state.currentStep === 4)) {
           centerVisual = `
-            <div class="step-illustration-container with-pacer">
+            <div class="step-illustration-container frosted with-pacer">
               ${imgTag}
               <div class="cpr-pacer-ring overlay-badge">
                 <div class="cpr-pacer-core overlay-badge-core"></div>
@@ -947,21 +983,21 @@
           `;
         } else if (step.img) {
           centerVisual = `
-            <div class="step-illustration-container">
+            <div class="step-illustration-container frosted">
               ${imgTag}
             </div>
             ${flow.hasPacer ? '<div class="bpm-tag" style="opacity: 0.7;">110 BPM TARGET</div>' : ''}
           `;
         } else if (flow.hasPacer) {
           centerVisual = `
-            <div class="step-illustration-container">
+            <div class="step-illustration-container frosted">
               <div class="cpr-pacer-ring"></div>
               <div class="cpr-pacer-core"></div>
             </div>
             <div class="bpm-tag">110 BPM RHYTHM</div>
           `;
         } else {
-          centerVisual = `<div class="step-illustration-container"></div>`;
+          centerVisual = `<div class="step-illustration-container frosted"></div>`;
         }
 
         stepWrap.innerHTML = `
@@ -999,8 +1035,8 @@
         }, 4000);
       } else if (flow.type === 'alert') {
         const alertBox = document.createElement('div');
-        alertBox.className = `alert-box ${flow.mode === 'medical' ? 'emergency' : ''}`;
-        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || '&#9888;'}</div>`;
+        alertBox.className = `alert-box frosted ${flow.mode === 'medical' ? 'emergency' : ''}`;
+        const imgHtml = flow.img ? `<div class="step-illustration-container frosted" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || '&#9888;'}</div>`;
         alertBox.innerHTML = `
           ${imgHtml}
           <div class="alert-title">${flow.titleText || 'Emergency Alert'}</div>
