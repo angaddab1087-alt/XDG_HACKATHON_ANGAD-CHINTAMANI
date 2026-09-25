@@ -34,33 +34,33 @@
 
     /* Frosted glass utility & base styling */
     .frosted {
-      background: rgba(22, 28, 36, 0.65) !important;
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+      background: rgba(18, 24, 32, 0.72) !important;
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     }
 
     #hud-container {
       width: 600px;
       height: 600px;
-      background: rgba(10, 14, 20, 0.72);
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      background: rgba(10, 14, 20, 0.78);
+      backdrop-filter: blur(10px) saturate(160%);
+      -webkit-backdrop-filter: blur(10px) saturate(160%);
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 18px 24px;
       outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 12px 40px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 40px rgba(0, 0, 0, 0.85);
       border-radius: 16px;
     }
 
     #hud-container:focus-visible,
     #hud-container.focused {
-      border-color: rgba(255, 255, 255, 0.32);
+      border-color: rgba(255, 255, 255, 0.35);
     }
 
     /* Top Metadata Bar */
@@ -74,7 +74,7 @@
       letter-spacing: 1.5px;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
       padding-bottom: 6px;
     }
 
@@ -107,11 +107,11 @@
     .back-btn, .exit-btn {
       font-family: inherit;
       color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       padding: 3px 10px;
       border-radius: 6px;
       font-size: 18px;
@@ -128,8 +128,8 @@
     .exit-btn:hover, .exit-btn.active {
       color: #FFFFFF;
       border-color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.28);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
     }
 
     /* Main Viewport */
@@ -169,11 +169,11 @@
       align-items: center;
       padding: 14px 20px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(255, 255, 255, 0.16);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      background: rgba(22, 28, 36, 0.72);
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
       color: rgba(255, 255, 255, 0.95);
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
@@ -193,31 +193,31 @@
     }
 
     .menu-item.selected {
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.22);
       border-color: #FFFFFF;
       color: #FFFFFF;
       transform: scale(1.02);
-      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
     }
 
     .menu-item.medical.selected {
       border-color: #FF453A;
       box-shadow: 0 0 20px rgba(255, 69, 58, 0.45);
-      background: rgba(255, 69, 58, 0.15);
+      background: rgba(255, 69, 58, 0.2);
     }
     .menu-item.medical.selected .menu-item-sub { color: #FF9F0A; }
 
     .menu-item.safety.selected {
       border-color: #0A84FF;
       box-shadow: 0 0 20px rgba(10, 132, 255, 0.45);
-      background: rgba(10, 132, 255, 0.15);
+      background: rgba(10, 132, 255, 0.2);
     }
     .menu-item.safety.selected .menu-item-sub { color: #64D2FF; }
 
     .menu-item.calm.selected {
       border-color: #30D158;
       box-shadow: 0 0 20px rgba(48, 209, 88, 0.45);
-      background: rgba(48, 209, 88, 0.15);
+      background: rgba(48, 209, 88, 0.2);
     }
     .menu-item.calm.selected .menu-item-sub { color: #30D158; }
 
@@ -265,10 +265,10 @@
       position: relative;
       margin: 4px 0;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(18, 24, 32, 0.72);
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .step-image {
@@ -410,9 +410,9 @@
     /* Confirmation / Triggered state */
     .alert-box {
       border: 1.5px solid rgba(10, 132, 255, 0.6);
-      background: rgba(10, 132, 255, 0.12);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10, 132, 255, 0.16);
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
       border-radius: 14px;
       padding: 24px;
       text-align: center;
@@ -422,7 +422,7 @@
 
     .alert-box.emergency {
       border-color: rgba(255, 69, 58, 0.6);
-      background: rgba(255, 69, 58, 0.12);
+      background: rgba(255, 69, 58, 0.16);
       box-shadow: 0 8px 30px rgba(255, 69, 58, 0.35);
     }
 
@@ -537,9 +537,9 @@
 
     .key-badge {
       background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       padding: 1px 6px;
       border-radius: 4px;
       color: #FFFFFF;
@@ -552,8 +552,8 @@
       padding: 2px 8px;
       border-radius: 6px;
       background: rgba(48, 209, 88, 0.22);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       color: #30D158;
       border: 1px solid rgba(48, 209, 88, 0.45);
       font-weight: 700;
