@@ -24,39 +24,39 @@
       max-height: 600px;
       min-width: 600px;
       min-height: 600px;
-      background: radial-gradient(circle at 50% 30%, #111822 0%, #05070a 60%, #000000 100%);
-      color: #FFFFFF;
+      background: #000000;
+      color: #111111;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
       display: grid;
       place-items: center;
     }
 
-    /* Frosted glass utility & base styling — 75% opaque for readability on transparent AR display */
+    /* Frosted glass — white at 45% opacity for that milky frosted look on transparent AR display */
     .frosted {
-      background: rgba(0, 0, 0, 0.75) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.45) !important;
+      border: 1px solid rgba(255, 255, 255, 0.6) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     #hud-container {
       width: 600px;
       height: 600px;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(255, 255, 255, 0.45);
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 18px 24px;
       outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       border-radius: 16px;
     }
 
     #hud-container:focus-visible,
     #hud-container.focused {
-      border-color: rgba(255, 255, 255, 0.35);
+      border-color: rgba(255, 255, 255, 0.7);
     }
 
     /* Top Metadata Bar */
@@ -69,8 +69,8 @@
       font-size: 18px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.95);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      color: #111111;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       padding-bottom: 6px;
     }
 
@@ -85,8 +85,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #FFFFFF;
-      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+      background: #333333;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     }
 
     .mode-indicator.medical { background: #FF453A; box-shadow: 0 0 8px #FF453A; }
@@ -102,10 +102,10 @@
 
     .back-btn, .exit-btn {
       font-family: inherit;
-      color: #FFFFFF;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      color: #111111;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       padding: 3px 10px;
       border-radius: 6px;
       font-size: 18px;
@@ -120,10 +120,9 @@
 
     .back-btn:hover, .back-btn.active,
     .exit-btn:hover, .exit-btn.active {
-      color: #FFFFFF;
-      border-color: #FFFFFF;
-      background: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+      color: #000000;
+      border-color: rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.7);
     }
 
     /* Main Viewport */
@@ -143,7 +142,7 @@
       font-size: 18px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(0, 0, 0, 0.7);
       font-weight: 600;
       margin-bottom: 10px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -163,10 +162,10 @@
       align-items: center;
       padding: 14px 20px;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1.5px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      color: #111111;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
     }
@@ -180,38 +179,38 @@
     .menu-item-sub {
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(0, 0, 0, 0.6);
       margin-top: 3px;
     }
 
     .menu-item.selected {
-      background: rgba(0, 0, 0, 0.85);
-      border-color: #FFFFFF;
-      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.65);
+      border-color: rgba(0, 0, 0, 0.3);
+      color: #000000;
       transform: scale(1.02);
-      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
 
     .menu-item.medical.selected {
       border-color: #FF453A;
-      box-shadow: 0 0 18px rgba(255, 69, 58, 0.4);
-      background: rgba(30, 5, 5, 0.85);
+      box-shadow: 0 0 18px rgba(255, 69, 58, 0.35);
+      background: rgba(255, 235, 235, 0.6);
     }
-    .menu-item.medical.selected .menu-item-sub { color: #FF9F0A; }
+    .menu-item.medical.selected .menu-item-sub { color: #CC3300; }
 
     .menu-item.safety.selected {
       border-color: #0A84FF;
-      box-shadow: 0 0 18px rgba(10, 132, 255, 0.4);
-      background: rgba(5, 15, 30, 0.85);
+      box-shadow: 0 0 18px rgba(10, 132, 255, 0.35);
+      background: rgba(230, 240, 255, 0.6);
     }
-    .menu-item.safety.selected .menu-item-sub { color: #64D2FF; }
+    .menu-item.safety.selected .menu-item-sub { color: #0066CC; }
 
     .menu-item.calm.selected {
       border-color: #30D158;
-      box-shadow: 0 0 18px rgba(48, 209, 88, 0.4);
-      background: rgba(5, 25, 10, 0.85);
+      box-shadow: 0 0 18px rgba(48, 209, 88, 0.35);
+      background: rgba(230, 255, 238, 0.6);
     }
-    .menu-item.calm.selected .menu-item-sub { color: #30D158; }
+    .menu-item.calm.selected .menu-item-sub { color: #1B8A3A; }
 
     /* Stepped Detail Views */
     .step-view {
@@ -229,7 +228,7 @@
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(0, 0, 0, 0.65);
       font-weight: 600;
     }
 
@@ -237,13 +236,13 @@
       font-size: 30px;
       font-weight: 800;
       margin: 4px 0 2px;
-      color: #FFFFFF;
+      color: #111111;
       letter-spacing: -0.5px;
     }
 
     .step-desc {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(0, 0, 0, 0.7);
       line-height: 1.35;
       max-width: 500px;
     }
@@ -257,8 +256,8 @@
       position: relative;
       margin: 4px 0;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.6);
     }
 
     .step-image {
@@ -266,7 +265,7 @@
       max-height: 100%;
       object-fit: contain;
       background: transparent;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.15));
     }
 
     .step-illustration-container.with-pacer .step-image {
@@ -295,7 +294,7 @@
       top: auto;
       left: auto;
       border-width: 3px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(255, 255, 255, 0.5);
     }
 
     .cpr-pacer-core {
@@ -331,7 +330,7 @@
     .bpm-tag {
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       font-size: 18px;
-      color: #FF6961;
+      color: #CC3300;
       font-weight: bold;
       letter-spacing: 1px;
       margin-top: 4px;
@@ -390,7 +389,7 @@
     .calm-text {
       font-size: 32px;
       font-weight: 700;
-      color: #FFFFFF;
+      color: #1B8A3A;
       letter-spacing: 0.5px;
       height: 40px;
       display: flex;
@@ -399,19 +398,19 @@
 
     /* Confirmation / Triggered state */
     .alert-box {
-      border: 1.5px solid rgba(10, 132, 255, 0.6);
-      background: rgba(0, 10, 30, 0.75);
+      border: 1.5px solid rgba(10, 132, 255, 0.5);
+      background: rgba(230, 240, 255, 0.55);
       border-radius: 14px;
       padding: 24px;
       text-align: center;
       max-width: 480px;
-      box-shadow: 0 4px 20px rgba(10, 132, 255, 0.3);
+      box-shadow: 0 4px 20px rgba(10, 132, 255, 0.2);
     }
 
     .alert-box.emergency {
-      border-color: rgba(255, 69, 58, 0.6);
-      background: rgba(20, 0, 0, 0.75);
-      box-shadow: 0 4px 20px rgba(255, 69, 58, 0.3);
+      border-color: rgba(255, 69, 58, 0.5);
+      background: rgba(255, 235, 235, 0.55);
+      box-shadow: 0 4px 20px rgba(255, 69, 58, 0.2);
     }
 
     .alert-icon {
@@ -422,12 +421,13 @@
     .alert-title {
       font-size: 26px;
       font-weight: 700;
+      color: #111111;
       margin-bottom: 8px;
     }
 
     .alert-sub {
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(0, 0, 0, 0.7);
       line-height: 1.4;
     }
 
@@ -450,18 +450,18 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .dot.active {
-      background: #FFFFFF;
-      box-shadow: 0 0 6px #FFFFFF;
+      background: #111111;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
     }
 
     .step-timer-bar {
       width: 100%;
       height: 3px;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.12);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -469,7 +469,7 @@
     .step-timer-fill {
       height: 100%;
       width: 0%;
-      background: #FFFFFF;
+      background: #333333;
       animation: autoAdvance 5s linear forwards;
     }
 
@@ -493,7 +493,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
       padding-top: 6px;
     }
 
@@ -504,31 +504,31 @@
       height: 28px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.95);
+      color: #111111;
     }
 
     .controls-hint {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: rgba(255, 255, 255, 0.95);
+      color: #111111;
       font-size: 18px;
     }
 
     .gesture-legend {
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
-      color: rgba(255, 255, 255, 0.88);
+      color: rgba(0, 0, 0, 0.6);
       letter-spacing: 0.3px;
       text-align: center;
     }
 
     .key-badge {
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.15);
       padding: 1px 6px;
       border-radius: 4px;
-      color: #FFFFFF;
+      color: #111111;
       font-size: 18px;
       font-weight: 600;
     }
@@ -537,8 +537,8 @@
       font-size: 18px;
       padding: 2px 8px;
       border-radius: 6px;
-      background: rgba(0, 20, 8, 0.75);
-      color: #30D158;
+      background: rgba(48, 209, 88, 0.25);
+      color: #1B8A3A;
       border: 1px solid rgba(48, 209, 88, 0.45);
       font-weight: 700;
     }
@@ -908,7 +908,7 @@
               <div class="menu-item-label">${item.label}</div>
               <div class="menu-item-sub">${item.sub}</div>
             </div>
-            <div style="font-family: monospace; font-size: 18px; opacity: 0.9;">&rarr;</div>
+            <div style="font-family: monospace; font-size: 18px; color: rgba(0,0,0,0.5);">&rarr;</div>
           `;
           el.addEventListener('click', () => {
             state.selectedIndex = index;
@@ -1029,9 +1029,9 @@
         viewport.appendChild(alertBox);
       } else if (flow.type === 'closing') {
         viewport.innerHTML = `
-          <div style="text-align: center; color: #FFFFFF;">
+          <div style="text-align: center; color: #111111;">
             <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">False Alarm Cleared</div>
-            <div style="font-size: 18px; font-family: monospace; color: rgba(255, 255, 255, 0.85);">Resetting HUD...</div>
+            <div style="font-size: 18px; font-family: monospace; color: rgba(0, 0, 0, 0.6);">Resetting HUD...</div>
           </div>
         `;
       }
