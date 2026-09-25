@@ -55,26 +55,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 32px;
+      height: 38px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      font-size: 13px;
+      font-size: 18px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.6);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      padding-bottom: 8px;
+      color: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      padding-bottom: 6px;
     }
 
     .top-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-weight: 700;
     }
 
     .mode-indicator {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #FFFFFF;
       box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
@@ -88,27 +88,31 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 12px;
+      font-size: 18px;
     }
 
     .back-btn, .exit-btn {
       font-family: inherit;
-      color: rgba(255, 255, 255, 0.45);
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 11px;
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: 600;
       cursor: pointer;
       letter-spacing: 0.5px;
       transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .back-btn:hover, .back-btn.active,
     .exit-btn:hover, .exit-btn.active {
       color: #FFFFFF;
-      border-color: rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.15);
+      border-color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.25);
     }
 
     /* Main Viewport */
@@ -124,10 +128,11 @@
     }
 
     .eyebrow {
-      font-size: 14px;
+      font-size: 18px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
       margin-bottom: 12px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
     }
@@ -146,9 +151,9 @@
       align-items: center;
       padding: 16px 22px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.08);
       border: 2px solid transparent;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.95);
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, transform 0.15s;
     }
@@ -160,9 +165,10 @@
     }
 
     .menu-item-sub {
-      font-size: 13px;
+      font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.85);
+      margin-top: 3px;
     }
 
     .menu-item.selected {
@@ -203,10 +209,11 @@
     }
 
     .step-header {
-      font-size: 13px;
+      font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       letter-spacing: 1.5px;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
     }
 
     .step-title {
@@ -304,8 +311,8 @@
 
     .bpm-tag {
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      font-size: 14px;
-      color: #FF453A;
+      font-size: 18px;
+      color: #FF6961;
       font-weight: bold;
       letter-spacing: 1px;
       margin-top: 4px;
@@ -400,8 +407,8 @@
     }
 
     .alert-sub {
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.8);
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.9);
       line-height: 1.4;
     }
 
@@ -466,51 +473,54 @@
     .bottom-bar {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding-top: 6px;
+      gap: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      padding-top: 8px;
     }
 
     .bottom-row-main {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 22px;
+      height: 28px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .controls-hint {
       display: flex;
       align-items: center;
-      gap: 4px;
-      color: rgba(255, 255, 255, 0.75);
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 18px;
     }
 
     .gesture-legend {
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      font-size: 10.5px;
-      color: rgba(255, 255, 255, 0.4);
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.88);
       letter-spacing: 0.3px;
       text-align: center;
     }
 
     .key-badge {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 1px 5px;
-      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 7px;
+      border-radius: 4px;
       color: #FFFFFF;
-      font-size: 11px;
+      font-size: 18px;
+      font-weight: 600;
     }
 
     .a11y-badge {
-      font-size: 10px;
-      padding: 1px 5px;
-      border-radius: 3px;
-      background: rgba(48, 209, 88, 0.15);
+      font-size: 18px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(48, 209, 88, 0.25);
       color: #30D158;
-      border: 1px solid rgba(48, 209, 88, 0.3);
+      border: 1px solid rgba(48, 209, 88, 0.5);
+      font-weight: 700;
     }
   </style>
 </head>
@@ -521,7 +531,7 @@
       <div class="top-left">
         <button id="back-btn" class="back-btn" title="Back (Backspace / Left)" style="display: none;">
           <span>&#8592;</span>
-          <span style="font-size: 9px; opacity: 0.7;">BACK</span>
+          <span>BACK</span>
         </button>
         <div id="mode-indicator" class="mode-indicator"></div>
         <span id="screen-title">HOME</span>
@@ -531,7 +541,7 @@
         <span id="sub-status">READY</span>
         <button id="exit-btn" class="exit-btn" title="Hold / Escape: False Alarm">
           <span>X</span>
-          <span style="font-size: 9px; opacity: 0.7;">HOLD</span>
+          <span>HOLD</span>
         </button>
       </div>
     </div>
@@ -878,7 +888,7 @@
               <div class="menu-item-label">${item.label}</div>
               <div class="menu-item-sub">${item.sub}</div>
             </div>
-            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">&rarr;</div>
+            <div style="font-family: monospace; font-size: 18px; opacity: 0.9;">&rarr;</div>
           `;
           el.addEventListener('click', () => {
             state.selectedIndex = index;
@@ -999,9 +1009,9 @@
         viewport.appendChild(alertBox);
       } else if (flow.type === 'closing') {
         viewport.innerHTML = `
-          <div style="text-align: center; color: rgba(255, 255, 255, 0.7);">
+          <div style="text-align: center; color: #FFFFFF;">
             <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">False Alarm Cleared</div>
-            <div style="font-size: 16px; font-family: monospace; color: rgba(255, 255, 255, 0.4);">Resetting HUD...</div>
+            <div style="font-size: 18px; font-family: monospace; color: rgba(255, 255, 255, 0.85);">Resetting HUD...</div>
           </div>
         `;
       }
@@ -1052,7 +1062,8 @@
           currentStep: state.currentStep
         });
         try {
-          window.history.pushState({ screen: targetScreen }, '', '#' + targetScreen);
+          const newUrl = (targetScreen === 'HOME') ? window.location.pathname : ('#' + targetScreen);
+          window.history.pushState({ screen: targetScreen }, '', newUrl);
         } catch (e) {}
       }
       state.currentScreen = targetScreen;
@@ -1080,6 +1091,9 @@
         state.selectedIndex = 0;
         state.currentStep = 0;
         state.history = [];
+        try {
+          window.history.replaceState({ screen: 'HOME' }, '', window.location.pathname);
+        } catch (e) {}
         renderScreen();
       }, 1200);
     }
@@ -1092,20 +1106,13 @@
         return;
       }
 
-      // Check if history stack has a previous screen
-      if (state.history && state.history.length > 0) {
-        const prev = state.history.pop();
-        state.currentScreen = prev.screen;
-        state.selectedIndex = prev.selectedIndex || 0;
-        state.currentStep = prev.currentStep || 0;
-        renderScreen();
+      // If browser history has entries pushed by our app, trigger browser back
+      if (window.history.length > 1 && state.history && state.history.length > 0) {
+        window.history.back();
       } else {
-        // Fallback to parent hierarchy if stack is empty
+        // Fallback navigation
         const parentScreen = PARENT_SCREEN_MAP[state.currentScreen] || 'HOME';
-        state.currentScreen = parentScreen;
-        state.selectedIndex = 0;
-        state.currentStep = 0;
-        renderScreen();
+        navigateToScreen(parentScreen, true);
       }
     }
 
@@ -1145,13 +1152,25 @@
 
     // Browser History / Simulator popstate integration
     window.addEventListener('popstate', (e) => {
-      if (e.state && e.state.screen) {
-        state.currentScreen = e.state.screen;
+      let target = (e.state && e.state.screen);
+      if (!target) {
+        const hash = window.location.hash.replace('#', '').trim();
+        target = FLOWS[hash] ? hash : 'HOME';
+      }
+      state.currentScreen = target;
+      state.selectedIndex = 0;
+      state.currentStep = 0;
+      renderScreen();
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '').trim();
+      const target = FLOWS[hash] ? hash : 'HOME';
+      if (state.currentScreen !== target) {
+        state.currentScreen = target;
         state.selectedIndex = 0;
         state.currentStep = 0;
         renderScreen();
-      } else if (state.currentScreen !== 'HOME') {
-        goBack();
       }
     });
 
@@ -1167,10 +1186,14 @@
       triggerFalseAlarm();
     });
 
-    // Auto Focus on load
+    // Auto Focus and initial route sync on load
     window.addEventListener('load', () => {
+      const initialHash = window.location.hash.replace('#', '').trim();
+      const initialScreen = FLOWS[initialHash] ? initialHash : 'HOME';
+      state.currentScreen = initialScreen;
       try {
-        window.history.replaceState({ screen: 'HOME' }, '', '#HOME');
+        const initialUrl = (initialScreen === 'HOME') ? window.location.pathname : ('#' + initialScreen);
+        window.history.replaceState({ screen: initialScreen }, '', initialUrl);
       } catch (e) {}
       container.focus();
       container.classList.add('focused');
