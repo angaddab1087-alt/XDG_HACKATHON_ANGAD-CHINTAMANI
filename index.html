@@ -90,7 +90,7 @@
       font-size: 12px;
     }
 
-    .exit-btn {
+    .back-btn, .exit-btn {
       font-family: inherit;
       color: rgba(255, 255, 255, 0.45);
       background: transparent;
@@ -103,6 +103,7 @@
       transition: all 0.15s ease;
     }
 
+    .back-btn:hover, .back-btn.active,
     .exit-btn:hover, .exit-btn.active {
       color: #FFFFFF;
       border-color: rgba(255, 255, 255, 0.7);
@@ -517,6 +518,10 @@
     <!-- Top Meta Row -->
     <div class="top-bar">
       <div class="top-left">
+        <button id="back-btn" class="back-btn" title="Back (Backspace / Left)" style="display: none;">
+          <span>&#8592;</span>
+          <span style="font-size: 9px; opacity: 0.7;">BACK</span>
+        </button>
         <div id="mode-indicator" class="mode-indicator"></div>
         <span id="screen-title">HOME</span>
       </div>
@@ -539,10 +544,10 @@
     <div class="bottom-bar">
       <div class="bottom-row-main">
         <div class="controls-hint">
-          <span class="key-badge">â†‘</span>
-          <span class="key-badge">â†“</span>
-          <span class="key-badge">â†</span>
-          <span class="key-badge">â†’</span>
+          <span class="key-badge">&uarr;</span>
+          <span class="key-badge">&darr;</span>
+          <span class="key-badge">&larr;</span>
+          <span class="key-badge">&rarr;</span>
           <span>SWIPE</span>
           <span class="key-badge" style="margin-left: 6px;">ENTER</span>
           <span>PINCH</span>
@@ -552,7 +557,7 @@
         <div id="flow-progress" style="font-family: monospace;">1/1</div>
       </div>
       <div class="gesture-legend">
-        Neural Band: Swipe to navigate Â* Pinch to select Â* Hold to exit
+        Neural Band: Swipe to navigate &bull; Pinch to select &bull; Hold to exit
       </div>
     </div>
   </div>
@@ -561,6 +566,7 @@
     // State Store
     const state = {
       currentScreen: 'HOME', // HOME, MEDICAL_MENU, SAFETY_MENU, CPR, CHOKING, DROWNING, STROKE, FIRE_MENU, POLICE, CALM, CLOSING
+      history: [], // Stack of previous screens for deterministic hierarchical back navigation
       selectedIndex: 0,
       currentStep: 0,
       calmInterval: null,
@@ -717,22 +723,22 @@
         type: 'stepper',
         steps: [
           {
-            title: 'F â€” Face Drooping',
+            title: 'F - Face Drooping',
             desc: 'Ask them to smile. Does one side of the face droop or feel numb?',
             img: 'images/stroke-1.png'
           },
           {
-            title: 'A â€” Arm Weakness',
+            title: 'A - Arm Weakness',
             desc: 'Ask them to raise both arms. Does one arm drift downward?',
             img: 'images/stroke-2.png'
           },
           {
-            title: 'S â€” Speech Difficulty',
+            title: 'S - Speech Difficulty',
             desc: 'Ask them to repeat a simple sentence. Is speech slurred or strange?',
             img: 'images/stroke-3.png'
           },
           {
-            title: 'T â€” Time to Call 911',
+            title: 'T - Time to Call 911',
             desc: 'If any symptom is present, call 911 immediately. Note the time it started.',
             img: 'images/stroke-4.png'
           }
@@ -744,22 +750,22 @@
         type: 'stepper',
         steps: [
           {
-            title: 'P â€” Pull Pin',
+            title: 'P - Pull Pin',
             desc: 'Pull the pin at top of extinguisher to break the tamper seal.',
             img: 'images/ext-1.png'
           },
           {
-            title: 'A â€” Aim Low',
+            title: 'A - Aim Low',
             desc: 'Aim the nozzle at the base of the fire, not the flames.',
             img: 'images/ext-2.png'
           },
           {
-            title: 'S â€” Squeeze Lever',
+            title: 'S - Squeeze Lever',
             desc: 'Squeeze the operating handle to discharge the extinguishing agent.',
             img: 'images/ext-3.png'
           },
           {
-            title: 'S â€” Sweep Side to Side',
+            title: 'S - Sweep Side to Side',
             desc: 'Sweep nozzle across base of fire until completely extinguished. Evacuate if uncontrolled.',
             img: 'images/ext-4.png'
           }
@@ -769,7 +775,7 @@
         title: 'FIRE ALERT',
         mode: 'safety',
         type: 'alert',
-        icon: 'ðŸ”¥',
+        icon: '&#128293;',
         titleText: 'Evacuate & Call 911',
         desc: 'Leave building immediately. Do not use elevators. Call emergency dispatch from outside.',
         img: 'images/fire-alert.png'
@@ -778,7 +784,7 @@
         title: 'POLICE ALERT',
         mode: 'safety',
         type: 'alert',
-        icon: 'ðŸš¨',
+        icon: '&#128680;',
         titleText: 'Emergency Contacts Alerted',
         desc: 'Location beacon activated. Stay in a secure location. Dispatch notified.',
         img: 'images/police-alert.png'
@@ -801,11 +807,21 @@
     const modeIndicator = document.getElementById('mode-indicator');
     const subStatus = document.getElementById('sub-status');
     const flowProgress = document.getElementById('flow-progress');
+    const backBtn = document.getElementById('back-btn');
     const exitBtn = document.getElementById('exit-btn');
 
     function updateTopBar(flow) {
       screenTitle.textContent = flow.title || 'HUD';
       modeIndicator.className = 'mode-indicator ' + (flow.mode || '');
+
+      // Show back button on sub-screens, hide on HOME or CLOSING
+      if (backBtn) {
+        if (state.currentScreen !== 'HOME' && state.currentScreen !== 'CLOSING') {
+          backBtn.style.display = 'inline-flex';
+        } else {
+          backBtn.style.display = 'none';
+        }
+      }
       
       if (flow.type === 'stepper') {
         subStatus.textContent = `STEP ${state.currentStep + 1}/${flow.steps.length} * 5s`;
@@ -861,7 +877,7 @@
               <div class="menu-item-label">${item.label}</div>
               <div class="menu-item-sub">${item.sub}</div>
             </div>
-            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">â†’</div>
+            <div style="font-family: monospace; font-size: 18px; opacity: 0.6;">&rarr;</div>
           `;
           el.addEventListener('click', () => {
             state.selectedIndex = index;
@@ -916,7 +932,7 @@
                 <div class="cpr-pacer-core overlay-badge-core"></div>
               </div>
             </div>
-            <div class="bpm-tag">âš¡ 110 BPM PACER ACTIVE</div>
+            <div class="bpm-tag">&#9889; 110 BPM PACER ACTIVE</div>
           `;
         } else if (step.img) {
           centerVisual = `
@@ -973,7 +989,7 @@
       } else if (flow.type === 'alert') {
         const alertBox = document.createElement('div');
         alertBox.className = `alert-box ${flow.mode === 'medical' ? 'emergency' : ''}`;
-        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || 'âš ï¸'}</div>`;
+        const imgHtml = flow.img ? `<div class="step-illustration-container" style="height: 100px; margin: 0 auto 10px auto;"><img src="${flow.img}" alt="${flow.titleText}" class="step-image" onerror="this.style.display='none'"></div>` : `<div class="alert-icon">${flow.icon || '&#9888;'}</div>`;
         alertBox.innerHTML = `
           ${imgHtml}
           <div class="alert-title">${flow.titleText || 'Emergency Alert'}</div>
@@ -1011,45 +1027,91 @@
       }
     }
 
+    // Hierarchy mapping for fallback
+    const PARENT_SCREEN_MAP = {
+      MEDICAL_MENU: 'HOME',
+      SAFETY_MENU: 'HOME',
+      CALM: 'HOME',
+      CPR: 'MEDICAL_MENU',
+      CHOKING: 'MEDICAL_MENU',
+      DROWNING: 'MEDICAL_MENU',
+      STROKE: 'MEDICAL_MENU',
+      FIRE_MENU: 'SAFETY_MENU',
+      FIRE_EXTINGUISHER: 'FIRE_MENU',
+      FIRE_CALL: 'FIRE_MENU',
+      POLICE: 'SAFETY_MENU',
+      CLOSING: 'HOME'
+    };
+
+    function navigateToScreen(targetScreen, pushToHistory = true) {
+      if (pushToHistory && state.currentScreen !== targetScreen) {
+        state.history.push({
+          screen: state.currentScreen,
+          selectedIndex: state.selectedIndex,
+          currentStep: state.currentStep
+        });
+        try {
+          window.history.pushState({ screen: targetScreen }, '', '#' + targetScreen);
+        } catch (e) {}
+      }
+      state.currentScreen = targetScreen;
+      state.selectedIndex = 0;
+      state.currentStep = 0;
+      renderScreen();
+    }
+
     function selectCurrent() {
       const flow = FLOWS[state.currentScreen];
       if (flow.type === 'menu') {
         const selected = flow.items[state.selectedIndex];
         if (selected && selected.id) {
-          state.currentScreen = selected.id;
-          state.selectedIndex = 0;
-          state.currentStep = 0;
-          renderScreen();
+          navigateToScreen(selected.id, true);
         }
       }
     }
 
     function triggerFalseAlarm() {
       state.currentScreen = 'CLOSING';
+      state.history = [];
       renderScreen();
       setTimeout(() => {
         state.currentScreen = 'HOME';
         state.selectedIndex = 0;
         state.currentStep = 0;
+        state.history = [];
         renderScreen();
       }, 1200);
     }
 
-    function goBackOrHome() {
+    function goBack() {
+      if (state.currentScreen === 'CLOSING') return;
+
       if (state.currentScreen === 'HOME') {
         triggerFalseAlarm();
+        return;
+      }
+
+      // Check if history stack has a previous screen
+      if (state.history && state.history.length > 0) {
+        const prev = state.history.pop();
+        state.currentScreen = prev.screen;
+        state.selectedIndex = prev.selectedIndex || 0;
+        state.currentStep = prev.currentStep || 0;
+        renderScreen();
       } else {
-        state.currentScreen = 'HOME';
+        // Fallback to parent hierarchy if stack is empty
+        const parentScreen = PARENT_SCREEN_MAP[state.currentScreen] || 'HOME';
+        state.currentScreen = parentScreen;
         state.selectedIndex = 0;
         state.currentStep = 0;
         renderScreen();
       }
     }
 
-    // Keyboard Controller
+    // Keyboard & Simulator Controller
     window.addEventListener('keydown', (e) => {
-      // Prevent browser default scroll behavior
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.key)) {
+      // Prevent browser default scroll and backspace navigation behavior
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space', 'Backspace'].includes(e.key)) {
         e.preventDefault();
       }
 
@@ -1066,11 +1128,38 @@
         case ' ':
           selectCurrent();
           break;
+        case 'Backspace':
+          goBack();
+          break;
         case 'Escape':
-          goBackOrHome();
+          // Esc triggers Back, or False Alarm reset if already at Home
+          if (state.currentScreen === 'HOME') {
+            triggerFalseAlarm();
+          } else {
+            goBack();
+          }
           break;
       }
     });
+
+    // Browser History / Simulator popstate integration
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.screen) {
+        state.currentScreen = e.state.screen;
+        state.selectedIndex = 0;
+        state.currentStep = 0;
+        renderScreen();
+      } else if (state.currentScreen !== 'HOME') {
+        goBack();
+      }
+    });
+
+    if (backBtn) {
+      backBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goBack();
+      });
+    }
 
     exitBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1079,6 +1168,9 @@
 
     // Auto Focus on load
     window.addEventListener('load', () => {
+      try {
+        window.history.replaceState({ screen: 'HOME' }, '', '#HOME');
+      } catch (e) {}
       container.focus();
       container.classList.add('focused');
       renderScreen();
