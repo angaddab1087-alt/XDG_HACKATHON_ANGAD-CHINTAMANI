@@ -25,38 +25,38 @@
       min-width: 600px;
       min-height: 600px;
       background: #000000;
-      color: #111111;
+      color: #FFFFFF;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       overflow: hidden;
       display: grid;
       place-items: center;
     }
 
-    /* Frosted glass — white at 45% opacity for that milky frosted look on transparent AR display */
+    /* Frosted glass — white at 25% opacity for that milky frosted look on transparent AR display */
     .frosted {
-      background: rgba(255, 255, 255, 0.45) !important;
-      border: 1px solid rgba(255, 255, 255, 0.6) !important;
+      background: rgba(255, 255, 255, 0.25) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     #hud-container {
       width: 600px;
       height: 600px;
-      background: rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.25);
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 18px 24px;
       outline: none;
-      border: 1px solid rgba(255, 255, 255, 0.55);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
       border-radius: 16px;
     }
 
     #hud-container:focus-visible,
     #hud-container.focused {
-      border-color: rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 0.6);
     }
 
     /* Top Metadata Bar */
@@ -69,8 +69,8 @@
       font-size: 18px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: #111111;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      color: #FFFFFF;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       padding-bottom: 6px;
     }
 
@@ -85,8 +85,8 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #333333;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+      background: #FFFFFF;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
     }
 
     .mode-indicator.medical { background: #FF453A; box-shadow: 0 0 8px #FF453A; }
@@ -102,9 +102,9 @@
 
     .back-btn, .exit-btn {
       font-family: inherit;
-      color: #111111;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(0, 0, 0, 0.15);
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       padding: 3px 10px;
       border-radius: 6px;
@@ -121,8 +121,8 @@
     .back-btn:hover, .back-btn.active,
     .exit-btn:hover, .exit-btn.active {
       color: #000000;
-      border-color: rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.8);
     }
 
     /* Main Viewport */
@@ -142,7 +142,7 @@
       font-size: 18px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 600;
       margin-bottom: 10px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -162,10 +162,10 @@
       align-items: center;
       padding: 14px 20px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.45);
-      border: 1.5px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      color: #111111;
+      color: #FFFFFF;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
     }
@@ -179,14 +179,14 @@
     .menu-item-sub {
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 0.7);
       margin-top: 3px;
     }
 
     .menu-item.selected {
-      background: rgba(255, 255, 255, 0.65);
-      border-color: rgba(0, 0, 0, 0.3);
-      color: #000000;
+      background: rgba(255, 255, 255, 0.45);
+      border-color: rgba(255, 255, 255, 0.8);
+      color: #FFFFFF;
       transform: scale(1.02);
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
@@ -194,23 +194,23 @@
     .menu-item.medical.selected {
       border-color: #FF453A;
       box-shadow: 0 0 18px rgba(255, 69, 58, 0.35);
-      background: rgba(255, 235, 235, 0.6);
+      background: rgba(255, 69, 58, 0.25);
     }
-    .menu-item.medical.selected .menu-item-sub { color: #CC3300; }
+    .menu-item.medical.selected .menu-item-sub { color: #FF9F0A; }
 
     .menu-item.safety.selected {
       border-color: #0A84FF;
       box-shadow: 0 0 18px rgba(10, 132, 255, 0.35);
-      background: rgba(230, 240, 255, 0.6);
+      background: rgba(10, 132, 255, 0.25);
     }
-    .menu-item.safety.selected .menu-item-sub { color: #0066CC; }
+    .menu-item.safety.selected .menu-item-sub { color: #64D2FF; }
 
     .menu-item.calm.selected {
       border-color: #30D158;
       box-shadow: 0 0 18px rgba(48, 209, 88, 0.35);
-      background: rgba(230, 255, 238, 0.6);
+      background: rgba(48, 209, 88, 0.25);
     }
-    .menu-item.calm.selected .menu-item-sub { color: #1B8A3A; }
+    .menu-item.calm.selected .menu-item-sub { color: #30D158; }
 
     /* Stepped Detail Views */
     .step-view {
@@ -228,7 +228,7 @@
       font-size: 18px;
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       letter-spacing: 1.5px;
-      color: rgba(0, 0, 0, 0.65);
+      color: rgba(255, 255, 255, 0.88);
       font-weight: 600;
     }
 
@@ -236,13 +236,13 @@
       font-size: 30px;
       font-weight: 800;
       margin: 4px 0 2px;
-      color: #111111;
+      color: #FFFFFF;
       letter-spacing: -0.5px;
     }
 
     .step-desc {
       font-size: 18px;
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(255, 255, 255, 0.88);
       line-height: 1.35;
       max-width: 500px;
     }
@@ -256,8 +256,8 @@
       position: relative;
       margin: 4px 0;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
     .step-image {
@@ -265,7 +265,7 @@
       max-height: 100%;
       object-fit: contain;
       background: transparent;
-      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.15));
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.15));
     }
 
     .step-illustration-container.with-pacer .step-image {
@@ -294,7 +294,7 @@
       top: auto;
       left: auto;
       border-width: 3px;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .cpr-pacer-core {
@@ -330,7 +330,7 @@
     .bpm-tag {
       font-family: ui-monospace, "SF Mono", Menlo, monospace;
       font-size: 18px;
-      color: #CC3300;
+      color: #FF6961;
       font-weight: bold;
       letter-spacing: 1px;
       margin-top: 4px;
@@ -389,7 +389,7 @@
     .calm-text {
       font-size: 32px;
       font-weight: 700;
-      color: #1B8A3A;
+      color: #FFFFFF;
       letter-spacing: 0.5px;
       height: 40px;
       display: flex;
@@ -398,8 +398,8 @@
 
     /* Confirmation / Triggered state */
     .alert-box {
-      border: 1.5px solid rgba(10, 132, 255, 0.5);
-      background: rgba(230, 240, 255, 0.55);
+      border: 1.5px solid rgba(10, 132, 255, 0.6);
+      background: rgba(10, 132, 255, 0.25);
       border-radius: 14px;
       padding: 24px;
       text-align: center;
@@ -408,8 +408,8 @@
     }
 
     .alert-box.emergency {
-      border-color: rgba(255, 69, 58, 0.5);
-      background: rgba(255, 235, 235, 0.55);
+      border-color: rgba(255, 69, 58, 0.6);
+      background: rgba(255, 69, 58, 0.25);
       box-shadow: 0 4px 20px rgba(255, 69, 58, 0.2);
     }
 
@@ -421,13 +421,13 @@
     .alert-title {
       font-size: 26px;
       font-weight: 700;
-      color: #111111;
+      color: #FFFFFF;
       margin-bottom: 8px;
     }
 
     .alert-sub {
       font-size: 18px;
-      color: rgba(0, 0, 0, 0.7);
+      color: rgba(255, 255, 255, 0.9);
       line-height: 1.4;
     }
 
@@ -450,18 +450,18 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .dot.active {
-      background: #111111;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+      background: #FFFFFF;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
     }
 
     .step-timer-bar {
       width: 100%;
       height: 3px;
-      background: rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.12);
       border-radius: 2px;
       overflow: hidden;
     }
@@ -469,7 +469,7 @@
     .step-timer-fill {
       height: 100%;
       width: 0%;
-      background: #333333;
+      background: #FFFFFF;
       animation: autoAdvance 5s linear forwards;
     }
 
@@ -493,7 +493,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
       padding-top: 6px;
     }
 
@@ -504,31 +504,31 @@
       height: 28px;
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
-      color: #111111;
+      color: #FFFFFF;
     }
 
     .controls-hint {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: #111111;
+      color: #FFFFFF;
       font-size: 18px;
     }
 
     .gesture-legend {
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 18px;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 0.88);
       letter-spacing: 0.3px;
       text-align: center;
     }
 
     .key-badge {
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       padding: 1px 6px;
       border-radius: 4px;
-      color: #111111;
+      color: #FFFFFF;
       font-size: 18px;
       font-weight: 600;
     }
@@ -538,7 +538,7 @@
       padding: 2px 8px;
       border-radius: 6px;
       background: rgba(48, 209, 88, 0.25);
-      color: #1B8A3A;
+      color: #30D158;
       border: 1px solid rgba(48, 209, 88, 0.45);
       font-weight: 700;
     }
@@ -908,7 +908,7 @@
               <div class="menu-item-label">${item.label}</div>
               <div class="menu-item-sub">${item.sub}</div>
             </div>
-            <div style="font-family: monospace; font-size: 18px; color: rgba(0,0,0,0.5);">&rarr;</div>
+            <div style="font-family: monospace; font-size: 18px; opacity: 0.9;">&rarr;</div>
           `;
           el.addEventListener('click', () => {
             state.selectedIndex = index;
@@ -1029,9 +1029,9 @@
         viewport.appendChild(alertBox);
       } else if (flow.type === 'closing') {
         viewport.innerHTML = `
-          <div style="text-align: center; color: #111111;">
+          <div style="text-align: center; color: #FFFFFF;">
             <div style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">False Alarm Cleared</div>
-            <div style="font-size: 18px; font-family: monospace; color: rgba(0, 0, 0, 0.6);">Resetting HUD...</div>
+            <div style="font-size: 18px; font-family: monospace; color: rgba(255, 255, 255, 0.85);">Resetting HUD...</div>
           </div>
         `;
       }
